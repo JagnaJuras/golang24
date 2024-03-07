@@ -25,7 +25,7 @@ func monty_hall(liczba_rund int, strategia_gracza int) {
 			Wygrane++
 		}
 	}
-	fmt.Println(Wygrane)
+	fmt.Println("Wygrane:", Wygrane, "Porażki:", liczba_rund-Wygrane)
 }
 
 func main() {
