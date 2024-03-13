@@ -5,30 +5,48 @@ import (
 	"math/rand"
 )
 
-func monty_hall(liczba_rund int, strategia_gracza int) {
-	Wygrane := 0
-	for _ = range liczba_rund {
-		Wybór := rand.Intn(3) // losowo wybiera liczbę od 0 do 2
-		Otwarcie := rand.Intn(3)
-		for Otwarcie == Wybór || Otwarcie == 0 {
-			Otwarcie = rand.Intn(3)
-		}
-		if strategia_gracza == 1 {
-			Wybór_2 := rand.Intn(3)
-			for Wybór_2 == Wybór || Wybór_2 == Otwarcie {
-				Wybór_2 = rand.Intn(3)
-			}
-			Wybór = Wybór_2
+func monty_hall(liczba_rund, n, liczba_otwarc int, strategia_gracza int) {
+	wygrane := 0
+	var nazwa_strategii string
 
+	for _ = range make([]int, liczba_rund) {
+		// losuje liczbę jako pierwszy wybór gracza
+		wybor := rand.Intn(n)
+
+		// losuje liczby jako pudełka do otwarcia (puste i nie wybrane przez gracza)
+		otwarte := make(map[int]bool)
+		for len(otwarte) < liczba_otwarc {
+			otwarte_pudla := rand.Intn(n)
+			if otwarte_pudla != wybor && !otwarte[otwarte_pudla] && otwarte_pudla != 0 {
+				otwarte[otwarte_pudla] = true
+			}
 		}
-		if Wybór == 0 {
-			Wygrane++
+
+		// zmienia wybów, jeśli strategia gracza polega na zmianie
+		if strategia_gracza == 1 {
+			nowy_wybor := rand.Intn(n)
+			for nowy_wybor == wybor || otwarte[nowy_wybor] {
+				nowy_wybor = rand.Intn(n)
+			}
+			wybor = nowy_wybor
+			nazwa_strategii = "Zmień"
+		} else {
+			nazwa_strategii = "Nie zmieniaj"
+		}
+
+		// sprawdza, czy gracz wygrał
+		if wybor == 0 {
+			wygrane++
 		}
 	}
-	fmt.Println("Wygrane:", Wygrane, "Porażki:", liczba_rund-Wygrane)
+
+	porażki := liczba_rund - wygrane
+	fmt.Printf("Strategia: %s, Wygrane: %d, Porażki: %d\n", nazwa_strategii, wygrane, porażki)
 }
 
 func main() {
-	monty_hall(100, 0)
-	monty_hall(100, 1)
+	monty_hall(100, 3, 1, 0)
+	monty_hall(100, 3, 1, 1)
+	monty_hall(100, 100, 98, 0)
+	monty_hall(100, 100, 98, 1)
 }
