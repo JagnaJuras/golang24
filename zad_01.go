@@ -9,7 +9,7 @@ func monty_hall(liczba_rund, n, liczba_otwarc int, strategia_gracza int) {
 	wygrane := 0
 	var nazwa_strategii string
 
-	for _ = range make([]int, liczba_rund) {
+	for i := 0; i < liczba_rund; i++ {
 		// losuje liczbę jako pierwszy wybór gracza
 		wybor := rand.Intn(n)
 
@@ -42,8 +42,13 @@ func monty_hall(liczba_rund, n, liczba_otwarc int, strategia_gracza int) {
 }
 
 func main() {
+	fmt.Println("3 drzwi, 1 otwarte")
 	monty_hall(100, 3, 1, 0)
 	monty_hall(100, 3, 1, 1)
+	fmt.Println("100 drzwi, 97 otwartych")
+	monty_hall(100, 100, 97, 0)
+	monty_hall(100, 100, 97, 1)
+	fmt.Println("100 drzwi, 98 otwartych")
 	monty_hall(100, 100, 98, 0)
 	monty_hall(100, 100, 98, 1)
 }
