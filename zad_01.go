@@ -13,20 +13,17 @@ func monty_hall(liczba_rund, n, liczba_otwarc int, strategia_gracza int) {
 		// losuje liczbę jako pierwszy wybór gracza
 		wybor := rand.Intn(n)
 
-		// losuje liczby jako pudełka do otwarcia (puste i nie wybrane przez gracza)
-		otwarte := make(map[int]bool)
-		for len(otwarte) < liczba_otwarc {
-			otwarte_pudla := rand.Intn(n)
-			if otwarte_pudla != wybor && !otwarte[otwarte_pudla] && otwarte_pudla != 0 {
-				otwarte[otwarte_pudla] = true
-			}
+		// "otwarcie" wybranej liczby drzwi (odejmuje
+		dostepne_drzwi := n - liczba_otwarc
+		if wybor >= n-liczba_otwarc {
+			dostepne_drzwi--
 		}
 
-		// zmienia wybów, jeśli strategia gracza polega na zmianie
+		// zmienia wybór, jeśli strategia gracza polega na zmianie
 		if strategia_gracza == 1 {
-			nowy_wybor := rand.Intn(n)
-			for nowy_wybor == wybor || otwarte[nowy_wybor] {
-				nowy_wybor = rand.Intn(n)
+			nowy_wybor := rand.Intn(dostepne_drzwi)
+			for nowy_wybor == wybor {
+				nowy_wybor = rand.Intn(dostepne_drzwi)
 			}
 			wybor = nowy_wybor
 			nazwa_strategii = "Zmień"
