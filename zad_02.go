@@ -3,45 +3,67 @@ package main
 import (
 	"fmt"
 	"math/big"
-	"sort"
+	"strconv"
 	"strings"
 )
 
-func factorial(number int64) *big.Int {
-	var fact = new(big.Int)
-	fact.MulRange(1, number)
-	return (fact)
+func factorial(n int64) *big.Int {
+	fact := big.NewInt(1)
+	for i := int64(2); i <= n; i++ {
+		fact.Mul(fact, big.NewInt(i))
+	}
+	return fact
 }
 
-func containsAllRunes(numStr string, runes []rune) bool {
-	for _, r := range runes {
-		if !strings.ContainsRune(numStr, r) {
+func containsAllNumbers(factorialStr string, numbers []string) bool {
+	for _, num := range numbers {
+		if !containsSubString(factorialStr, num) {
 			return false
 		}
 	}
 	return true
 }
 
-func findFactorialWithRunes(runes []rune) int64 {
-	sort.Slice(runes, func(i, j int) bool { return runes[i] < runes[j] })
-	num := int64(1)
+func containsSubString(str, substr string) bool {
+	return strIndex(str, substr) != -1
+}
+
+func strIndex(s, substr string) int {
+	n := len(substr)
+	for i := 0; i <= len(s)-n; i++ {
+		if s[i:i+n] == substr {
+			return i
+		}
+	}
+	return -1
+}
+
+func findFactorialContainingNumbers(numbers []string) int64 {
+	var num int64
 	for {
 		fact := factorial(num)
-		if containsAllRunes(fact.String(), runes) {
-			return num
+		factStr := fact.String()
+		if containsAllNumbers(factStr, numbers) {
+			break
 		}
 		num++
 	}
+	return num
 }
 
 func main() {
 	name := "Jagna"
 	surname := "Juras"
 	nick := strings.ToLower(name[0:3] + surname[0:3])
-	fmt.Println(nick)
+	fmt.Println("Nickname:", nick)
+
 	runes := []rune(nick)
-	for i := 0; i < len(runes); i++ {
-		fmt.Println(runes[i])
+	fmt.Println("Runes:", runes)
+
+	var numStrings []string
+	for _, r := range runes {
+		numStrings = append(numStrings, strconv.Itoa(int(r)))
 	}
-	fmt.Println(findFactorialWithRunes(runes))
+	n := findFactorialContainingNumbers(numStrings)
+	fmt.Printf("The smallest factorial number containing all numbers %v is %d\n", numStrings, n)
 }
