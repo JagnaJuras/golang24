@@ -51,6 +51,13 @@ func findFactorialContainingNumbers(numbers []string) int64 {
 	return num
 }
 
+func fibonacci(n int) {
+	if n <= 1 {
+        	return n
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
+}
+
 func main() {
 	name := "Jagna"
 	surname := "Juras"
