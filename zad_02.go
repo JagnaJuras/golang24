@@ -51,9 +51,9 @@ func findFactorialContainingNumbers(numbers []string) int64 {
 	return num
 }
 
-func fibonacci(n int) {
+func fibonacci(n int) int {
 	if n <= 1 {
-        	return n
+		return n
 	}
 	return fibonacci(n-1) + fibonacci(n-2)
 }
@@ -73,4 +73,5 @@ func main() {
 	}
 	n := findFactorialContainingNumbers(numStrings)
 	fmt.Printf("The smallest factorial number containing all numbers %v is %d\n", numStrings, n)
+	fmt.Println(fibonacci(30))
 }
