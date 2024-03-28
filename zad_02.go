@@ -17,15 +17,13 @@ func factorial(n int64) *big.Int {
 
 func containsAllNumbers(factorialStr string, numbers []string) bool {
 	for _, num := range numbers {
-		if !containsSubString(factorialStr, num) {
+		index := strIndex(factorialStr, num)
+		if index == -1 {
 			return false
 		}
+		factorialStr = factorialStr[:index] + factorialStr[index+len(num):]
 	}
 	return true
-}
-
-func containsSubString(str, substr string) bool {
-	return strIndex(str, substr) != -1
 }
 
 func strIndex(s, substr string) int {
