@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/big"
+	"sort"
 	"strconv"
 	"strings"
 )
+
+// ===================== SILNA LICZBA =====================
 
 func factorial(n int64) *big.Int {
 	fact := big.NewInt(1)
@@ -49,12 +53,57 @@ func findFactorialContainingNumbers(numbers []string) int64 {
 	return num
 }
 
+// ===================== SŁABA LICZBA =====================
+
+var fibCalls map[int]int
+
+func init() {
+	fibCalls = make(map[int]int)
+}
+
 func fibonacci(n int) int {
+	// Increment the counter for this value of n
+	fibCalls[n]++
+
 	if n <= 1 {
 		return n
 	}
 	return fibonacci(n-1) + fibonacci(n-2)
 }
+
+func printFibCalls() {
+	fibonacci(30)
+
+	// Sort the n values
+	var ns []int
+	for n := range fibCalls {
+		ns = append(ns, n)
+	}
+	sort.Ints(ns)
+
+	// Print the counts
+	fmt.Println("Number of calls for each n:")
+	for _, n := range ns {
+		fmt.Printf("n = %d: %d calls\n", n, fibCalls[n])
+	}
+}
+
+func findClosestFibonacci(n int64) int {
+	closestN := 0
+	closestDifference := math.MaxInt64
+
+	for fibN, count := range fibCalls {
+		difference := int(math.Abs(float64(count) - float64(n)))
+		if difference < closestDifference {
+			closestDifference = difference
+			closestN = fibN
+		}
+	}
+
+	return closestN
+}
+
+// ===================== DZIAŁANIE =====================
 
 func main() {
 	name := "Jagna"
@@ -71,5 +120,7 @@ func main() {
 	}
 	n := findFactorialContainingNumbers(numStrings)
 	fmt.Printf("The smallest factorial number containing all numbers %v is %d\n", numStrings, n)
-	fmt.Println(fibonacci(30))
+	fibonacci(30)
+	closestFib := findClosestFibonacci(n)
+	fmt.Printf("The number in Fibonacci sequence closest to the result is: %d\n", closestFib)
 }
