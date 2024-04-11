@@ -11,6 +11,7 @@ import (
 
 // ===================== SILNA LICZBA =====================
 
+// Obliczanie silnii
 func factorial(n int64) *big.Int {
 	fact := big.NewInt(1)
 	for i := int64(2); i <= n; i++ {
@@ -19,6 +20,18 @@ func factorial(n int64) *big.Int {
 	return fact
 }
 
+// Funkcja sprawdzająca, czy liczba znajduje się w dłuższym ciągu znaków (silnii)
+func strIndex(s, substr string) int {
+	n := len(substr)
+	for i := 0; i <= len(s)-n; i++ {
+		if s[i:i+n] == substr {
+			return i
+		}
+	}
+	return -1
+}
+
+// Funkcja sprawdzająca, czy wszystkie liczby z listy znajdują się w silnii
 func containsAllNumbers(factorialStr string, numbers []string) bool {
 	for _, num := range numbers {
 		index := strIndex(factorialStr, num)
@@ -30,16 +43,7 @@ func containsAllNumbers(factorialStr string, numbers []string) bool {
 	return true
 }
 
-func strIndex(s, substr string) int {
-	n := len(substr)
-	for i := 0; i <= len(s)-n; i++ {
-		if s[i:i+n] == substr {
-			return i
-		}
-	}
-	return -1
-}
-
+// Funkcja szukająca silnii zawierającej wszystkie liczby z listy
 func findFactorialContainingNumbers(numbers []string) int64 {
 	var num int64
 	for {
@@ -55,14 +59,15 @@ func findFactorialContainingNumbers(numbers []string) int64 {
 
 // ===================== SŁABA LICZBA =====================
 
+// Zainicjowanie mapy dla l. wywołań funkcji fibonacci dla poszczególnych liczb
 var fibCalls map[int]int
 
 func init() {
 	fibCalls = make(map[int]int)
 }
 
+// Obliczanie n-tej liczby Fibonacciego
 func fibonacci(n int) int {
-	// Increment the counter for this value of n
 	fibCalls[n]++
 
 	if n <= 1 {
@@ -71,24 +76,22 @@ func fibonacci(n int) int {
 	return fibonacci(n-1) + fibonacci(n-2)
 }
 
+// Wyświetlanie mapy z l. wywołań
 func printFibCalls() {
-	fibonacci(30)
-
-	// Sort the n values
 	var ns []int
 	for n := range fibCalls {
 		ns = append(ns, n)
 	}
 	sort.Ints(ns)
 
-	// Print the counts
-	fmt.Println("Number of calls for each n:")
+	fmt.Println("Liczba wywołań funkcji fibonacci dla każdego n:")
 	for _, n := range ns {
-		fmt.Printf("n = %d: %d calls\n", n, fibCalls[n])
+		fmt.Printf("n = %d: %d\n", n, fibCalls[n])
 	}
 }
 
-func findClosestFibonacci(n int64) int {
+// Funkcja do wyszukiwania liczby zawierającej l. wywołań najbliższą danej liczbie (Silnej Liczbie)
+func findClosestFibCalls(n int64) int {
 	closestN := 0
 	closestDifference := math.MaxInt64
 
@@ -106,21 +109,28 @@ func findClosestFibonacci(n int64) int {
 // ===================== DZIAŁANIE =====================
 
 func main() {
-	name := "Jagna"
-	surname := "Juras"
+	// Utworzenie nicku
+	var name, surname string
+	fmt.Print("Imię: ")
+	fmt.Scanln(&name)
+	fmt.Print("Nazwisko: ")
+	fmt.Scanln(&surname)
 	nick := strings.ToLower(name[0:3] + surname[0:3])
-	fmt.Println("Nickname:", nick)
+	fmt.Println("Nick:", nick)
 
+	// Stworzenie listy z kodami ASCII liter z nicku
 	runes := []rune(nick)
-	fmt.Println("Runes:", runes)
+	fmt.Println("Kody numeryczne ASCII:", runes)
 
+	// Stworzenie listy z kodami ASCII w formie stringów
 	var numStrings []string
 	for _, r := range runes {
 		numStrings = append(numStrings, strconv.Itoa(int(r)))
 	}
 	n := findFactorialContainingNumbers(numStrings)
-	fmt.Printf("The smallest factorial number containing all numbers %v is %d\n", numStrings, n)
+	fmt.Printf("Twoja Silna Liczba: %d\n", n)
 	fibonacci(30)
-	closestFib := findClosestFibonacci(n)
-	fmt.Printf("The number in Fibonacci sequence closest to the result is: %d\n", closestFib)
+	// printFibCalls()
+	closestFib := findClosestFibCalls(n)
+	fmt.Printf("Twoja Słaba Liczba: %d\n", closestFib)
 }
