@@ -57,6 +57,21 @@ func findFactorialContainingNumbers(numbers []string) int64 {
 	return num
 }
 
+// Funkcja szukająca silnii zawierającej wszystkie liczby z listy (wypisuje silnię)
+// func findFactorialContainingNumbers(numbers []string) string {
+// 	var num int64
+// 	var factStr string
+// 	for {
+// 		fact := factorial(num)
+// 		factStr = fact.String()
+// 		if containsAllNumbers(factStr, numbers) {
+// 			break
+// 		}
+// 		num++
+// 	}
+// 	return factStr
+// }
+
 // ===================== SŁABA LICZBA =====================
 
 // Zainicjowanie mapy dla l. wywołań funkcji fibonacci dla poszczególnych liczb
@@ -118,11 +133,11 @@ func main() {
 	nick := strings.ToLower(name[0:3] + surname[0:3])
 	fmt.Println("Nick:", nick)
 
-	// Stworzenie listy z kodami ASCII liter z nicku
+	// Stworzenie wycinka z kodami ASCII liter z nicku
 	runes := []rune(nick)
 	fmt.Println("Kody numeryczne ASCII:", runes)
 
-	// Stworzenie listy z kodami ASCII w formie stringów
+	// Stworzenie wycinka z kodami ASCII w formie stringów
 	var numStrings []string
 	for _, r := range runes {
 		numStrings = append(numStrings, strconv.Itoa(int(r)))
