@@ -16,7 +16,7 @@ import (
 func main() {
 	// ----------------- ONE SIM ------------------
 	// Generate matrix
-	matrix := generateMatrix(15, 20, 0.5)
+	matrix := generateMatrix(15, 20, 0.4)
 
 	fmt.Println("Initial Forest:")
 	printMatrix(matrix)
@@ -34,6 +34,7 @@ func main() {
 	// Calculate percentage of trees burned
 	percentBurned := countBurntTrees(matrix)
 	fmt.Printf("\nPercentage of trees burned: %.2f%%\n", percentBurned)
+
 	// ------------ TESTING DIFFERENT DENSITIES WITH ALL FIRES -------------
 
 	rows := []int{10, 50, 100, 500, 1000, 50, 100, 200}
@@ -259,7 +260,7 @@ func igniteFire(matrix [][]int, row, col int, probability float64) {
 			if i >= 0 && i < len(matrix) && j >= 0 && j < len(matrix[0]) {
 				// Spread fire to trees with probability
 				if matrix[i][j] == 1 && rand.Float64() < probability {
-					igniteFire(matrix, i, j, probability*1) // Decrease probability
+					igniteFire(matrix, i, j, probability*0.95) // Decrease probability
 				}
 			}
 		}
